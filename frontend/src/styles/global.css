@@ -1,0 +1,293 @@
+:root {
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --text: #1c2430;
+  --muted: #6d7788;
+  --primary: #004e89;
+  --primary-2: #007ea7;
+  --danger: #b42318;
+  --ok: #067647;
+  --warn: #b54708;
+  --border: #d0d5dd;
+  --shadow: 0 14px 32px rgba(7, 31, 56, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 0 0, rgba(0, 126, 167, 0.14), transparent 35%),
+    radial-gradient(circle at 100% 100%, rgba(0, 78, 137, 0.12), transparent 40%),
+    var(--bg);
+}
+
+a {
+  color: var(--primary);
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: min(450px, 96vw);
+}
+
+.topbar {
+  background: linear-gradient(120deg, var(--primary), var(--primary-2));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.topbar p {
+  margin: 6px 0 0;
+  opacity: 0.8;
+}
+
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.content-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.single-col {
+  max-width: 1100px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+input,
+textarea,
+select,
+button {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font: inherit;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.ghost {
+  background: #e8f0f6;
+  color: #123;
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.demo-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  border-bottom: 1px solid #e4e7ec;
+  padding: 10px 8px;
+  white-space: nowrap;
+}
+
+.pill {
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 9px;
+  text-transform: uppercase;
+}
+
+.pill.ok {
+  background: #dcfae6;
+  color: var(--ok);
+}
+
+.pill.warn {
+  background: #fef0c7;
+  color: var(--warn);
+}
+
+.pill.bad {
+  background: #fee4e2;
+  color: var(--danger);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.tiny-progress {
+  width: 110px;
+  height: 8px;
+  border-radius: 999px;
+  background: #eceff3;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.tiny-progress > div {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+}
+
+.progress-wrap {
+  position: relative;
+  height: 26px;
+  border-radius: 999px;
+  background: #edf1f5;
+  overflow: hidden;
+}
+
+.progress-wrap span {
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  font-size: 0.8rem;
+  color: #123;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+}
+
+.error-text {
+  color: var(--danger);
+  margin: 8px 0;
+}
+
+.app-error {
+  margin-top: 10px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 16, 25, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.modal {
+  width: min(920px, 95vw);
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.player {
+  margin-top: 10px;
+  width: 100%;
+  max-height: 70vh;
+  background: black;
+}
+
+@media (max-width: 900px) {
+  .grid-2,
+  .filters,
+  .demo-row {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topbar nav {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
