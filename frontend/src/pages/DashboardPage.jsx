@@ -74,10 +74,60 @@ export default function DashboardPage() {
 
   const canUpload = useMemo(() => ['editor', 'admin'].includes(user.role), [user.role]);
   const canDelete = canUpload;
+  const filteredVideos = useMemo(() => {
+    if (!filters.q) return videos;
+
+    const term = filters.q.toLowerCase();
+    return videos.filter(
+      (video) =>
+        video.title.toLowerCase().includes(term) ||
+        video.description?.toLowerCase().includes(term) ||
+        video.originalName?.toLowerCase().includes(term)
+    );
+  }, [videos, filters.q]);
+
+  const homeStats = useMemo(() => {
+    const processed = videos.filter((video) => video.status === 'processed').length;
+    const processing = videos.filter((video) => video.status === 'processing').length;
+    const flagged = videos.filter((video) => video.sensitivity === 'flagged').length;
+
+    return {
+      total: videos.length,
+      processed,
+      processing,
+      flagged
+    };
+  }, [videos]);
 
   return (
-    <main className="page-shell">
+    <main className="page-shell home-page">
       <NavBar />
+      <section className="home-hero">
+        <p className="home-kicker">PulseTask Command Center</p>
+        <h2 className="home-title">Video operations at a glance</h2>
+        <p className="home-subtitle">
+          Manage ingest, moderation, and playback from a single workspace built for {user.role} users.
+        </p>
+        <div className="home-stats">
+          <article className="home-stat">
+            <strong>{homeStats.total}</strong>
+            <span>Total Videos</span>
+          </article>
+          <article className="home-stat">
+            <strong>{homeStats.processed}</strong>
+            <span>Ready To Play</span>
+          </article>
+          <article className="home-stat">
+            <strong>{homeStats.processing}</strong>
+            <span>In Processing</span>
+          </article>
+          <article className="home-stat">
+            <strong>{homeStats.flagged}</strong>
+            <span>Flagged Content</span>
+          </article>
+        </div>
+      </section>
+
       <section className="content-grid">
         {canUpload ? (
           <UploadForm
@@ -94,15 +144,7 @@ export default function DashboardPage() {
         )}
 
         <VideoTable
-          videos={videos.filter((video) => {
-            if (!filters.q) return true;
-            const term = filters.q.toLowerCase();
-            return (
-              video.title.toLowerCase().includes(term) ||
-              video.description?.toLowerCase().includes(term) ||
-              video.originalName?.toLowerCase().includes(term)
-            );
-          })}
+          videos={filteredVideos}
           filters={filters}
           onFilterChange={(key, value) => {
             setFilters((prev) => ({ ...prev, [key]: value }));
