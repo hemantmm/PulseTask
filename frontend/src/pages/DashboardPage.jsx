@@ -72,7 +72,7 @@ export default function DashboardPage() {
     }
   }
 
-  const canUpload = useMemo(() => ['editor', 'admin'].includes(user.role), [user.role]);
+  const canUpload = useMemo(() => ['editor', 'admin'].includes(user?.role), [user?.role]);
   const canDelete = canUpload;
   const filteredVideos = useMemo(() => {
     if (!filters.q) return videos;
@@ -86,28 +86,55 @@ export default function DashboardPage() {
     );
   }, [videos, filters.q]);
 
+    const greeting = useMemo(() => {
+      const hour = new Date().getHours();
+      if (hour < 12) return 'Good morning';
+      if (hour < 18) return 'Good afternoon';
+      return 'Good evening';
+    }, []);
+
   const homeStats = useMemo(() => {
     const processed = videos.filter((video) => video.status === 'processed').length;
     const processing = videos.filter((video) => video.status === 'processing').length;
+      const failed = videos.filter((video) => video.status === 'failed').length;
     const flagged = videos.filter((video) => video.sensitivity === 'flagged').length;
+      const safe = videos.filter((video) => video.sensitivity === 'safe').length;
+      const totalSizeMb = videos.reduce((sum, video) => sum + (video.size || 0), 0) / (1024 * 1024);
+      const completionRate = videos.length ? Math.round((processed / videos.length) * 100) : 0;
+      const newestVideo = [...videos]
+        .filter((video) => video.createdAt)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
 
     return {
       total: videos.length,
       processed,
       processing,
-      flagged
+        failed,
+        flagged,
+        safe,
+        totalSizeMb,
+        completionRate,
+        newestVideo
     };
   }, [videos]);
+
+    const role = user?.role || 'viewer';
 
   return (
     <main className="page-shell home-page">
       <NavBar />
       <section className="home-hero">
-        <p className="home-kicker">PulseTask Command Center</p>
-        <h2 className="home-title">Video operations at a glance</h2>
-        <p className="home-subtitle">
-          Manage ingest, moderation, and playback from a single workspace built for {user.role} users.
-        </p>
+          <p className="home-kicker">PulseTask Command Center</p>
+          <h2 className="home-title">{greeting}, keep content operations moving</h2>
+          <p className="home-subtitle">
+            Live visibility across ingest, moderation, and playback for your <strong>{role}</strong>{' '}
+            workspace.
+          </p>
+          <div className="home-chips">
+            <span className="home-chip">Tenant: {user?.tenantId}</span>
+            <span className="home-chip">Role: {role}</span>
+            <span className="home-chip">Completion: {homeStats.completionRate}%</span>
+          </div>
         <div className="home-stats">
           <article className="home-stat">
             <strong>{homeStats.total}</strong>
@@ -125,7 +152,54 @@ export default function DashboardPage() {
             <strong>{homeStats.flagged}</strong>
             <span>Flagged Content</span>
           </article>
+          <article className="home-stat">
+            <strong>{homeStats.failed}</strong>
+            <span>Failed Jobs</span>
+          </article>
         </div>
+        <div className="home-signal-strip" aria-label="Processing signal strip">
+          <div className="signal-block">
+            <p>Storage footprint</p>
+            <strong>{homeStats.totalSizeMb.toFixed(1)} MB</strong>
+          </div>
+          <div className="signal-block">
+            <p>Safe assets</p>
+            <strong>{homeStats.safe}</strong>
+          </div>
+          <div className="signal-block">
+            <p>Latest ingest</p>
+            <strong>{homeStats.newestVideo?.title || 'No uploads yet'}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-insights" aria-label="Operational insights">
+        <article className="home-insight-card">
+          <h3>Queue Health</h3>
+          <p className="insight-note">
+            {homeStats.processing > 0
+              ? `${homeStats.processing} video(s) are still in processing.`
+              : 'No active processing queue right now.'}
+          </p>
+          <div className="insight-meter">
+            <div style={{ width: `${Math.max(homeStats.completionRate, 6)}%` }} />
+          </div>
+          <small>{homeStats.completionRate}% of assets are ready to play.</small>
+        </article>
+
+        <article className="home-insight-card">
+          <h3>Moderation Radar</h3>
+          <p className="insight-note">
+            {homeStats.flagged > 0
+              ? `${homeStats.flagged} flagged video(s) require review.`
+              : 'No flagged content detected in current filters.'}
+          </p>
+          <div className="insight-tags">
+            <span>Safe: {homeStats.safe}</span>
+            <span>Flagged: {homeStats.flagged}</span>
+            <span>Unknown: {Math.max(homeStats.total - homeStats.safe - homeStats.flagged, 0)}</span>
+          </div>
+        </article>
       </section>
 
       <section className="content-grid">
