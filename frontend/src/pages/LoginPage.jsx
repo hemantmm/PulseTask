@@ -51,33 +51,71 @@ export default function LoginPage() {
 
   return (
     <main className="auth-shell">
-      <form className="card auth-card" onSubmit={handleSubmit}>
-        <h2>Welcome Back</h2>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {error ? <p className="error-text">{error}</p> : null}
-        <div className="demo-row">
-          <button type="button" className="ghost" onClick={() => fillDemo('editor')}>
-            Use Editor Demo
+      <section className="auth-layout">
+        <aside className="auth-panel">
+          <p className="auth-kicker">Operations Ready</p>
+          <h1>Monitor uploads, moderation, and playback in one dashboard.</h1>
+          <p>
+            PulseTask gives your team a live command center for media ingestion, processing, and
+            secure playback.
+          </p>
+          <div className="auth-points">
+            <span>Real-time queue updates</span>
+            <span>Tenant-isolated workspaces</span>
+            <span>Role-based controls</span>
+          </div>
+        </aside>
+
+        <form className="card auth-card" onSubmit={handleSubmit}>
+          <p className="auth-form-kicker">Sign In</p>
+          <h2>Welcome Back</h2>
+          <p className="auth-form-note">Use one of your tenant credentials to continue.</p>
+
+          <label className="field">
+            <span>Email</span>
+            <input
+              type="email"
+              placeholder="you@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+
+          <label className="field">
+            <span>Password</span>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+
+          {error ? <p className="error-text">{error}</p> : null}
+
+          <div className="demo-row">
+            <button type="button" className="ghost" onClick={() => fillDemo('editor')}>
+              Editor Demo
+            </button>
+            <button type="button" className="ghost" onClick={() => fillDemo('admin')}>
+              Admin Demo
+            </button>
+            <button type="button" className="ghost" onClick={() => fillDemo('viewer')}>
+              Viewer Demo
+            </button>
+          </div>
+
+          <button className="primary-btn" disabled={busy}>
+            {busy ? 'Signing in...' : 'Login'}
           </button>
-          <button type="button" className="ghost" onClick={() => fillDemo('admin')}>
-            Use Admin Demo
-          </button>
-          <button type="button" className="ghost" onClick={() => fillDemo('viewer')}>
-            Use Viewer Demo
-          </button>
-        </div>
-        <button disabled={busy}>{busy ? 'Signing in...' : 'Login'}</button>
-        <p>
-          Need an account? <Link to="/register">Register</Link>
-        </p>
-      </form>
+
+          <p className="auth-switch">
+            Need an account? <Link to="/register">Register</Link>
+          </p>
+        </form>
+      </section>
     </main>
   );
 }

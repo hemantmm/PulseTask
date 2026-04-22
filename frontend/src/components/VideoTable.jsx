@@ -15,6 +15,7 @@ export default function VideoTable({
   return (
     <section className="card">
       <h2>Video Library</h2>
+      <p className="section-lead">Search, filter, and review upload status across your tenant.</p>
       <div className="filters">
         <input
           placeholder="Search title or description"

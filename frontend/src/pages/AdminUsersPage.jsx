@@ -40,11 +40,12 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <main className="page-shell">
+    <main className="page-shell admin-page">
       <NavBar />
       <section className="content-grid single-col">
         <form className="card" onSubmit={createUser}>
           <h2>Create Tenant User</h2>
+          <p className="section-lead">Invite teammates with the right role permissions.</p>
           <div className="grid-2">
             <input
               placeholder="Name"
@@ -80,6 +81,7 @@ export default function AdminUsersPage() {
 
         <section className="card">
           <h2>Users in Tenant</h2>
+          <p className="section-lead">{users.length} user(s) currently active in this workspace.</p>
           <div className="table-wrap">
             <table>
               <thead>

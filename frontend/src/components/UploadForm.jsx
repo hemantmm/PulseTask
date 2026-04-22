@@ -56,6 +56,7 @@ export default function UploadForm({ token, onCreated }) {
   return (
     <form className="card" onSubmit={handleSubmit}>
       <h2>Upload Video</h2>
+      <p className="section-lead">Add media assets for processing and moderation.</p>
       <div className="grid-2">
         <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <input
