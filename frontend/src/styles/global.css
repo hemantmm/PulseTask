@@ -47,6 +47,262 @@ a {
   width: min(450px, 96vw);
 }
 
+.login-page {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(245, 158, 11, 0.16), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(13, 148, 136, 0.2), transparent 38%),
+    radial-gradient(circle at 50% 96%, rgba(3, 105, 161, 0.16), transparent 42%),
+    linear-gradient(165deg, #fffdf7 0%, #eff8f9 58%, #f4f8ff 100%);
+}
+
+.login-page::before,
+.login-page::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  z-index: -1;
+  pointer-events: none;
+  animation: ambient-float 10s ease-in-out infinite;
+}
+
+.login-page::before {
+  width: 360px;
+  height: 360px;
+  top: -140px;
+  right: -80px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.66), transparent 66%);
+}
+
+.login-page::after {
+  width: 310px;
+  height: 310px;
+  left: -120px;
+  bottom: -135px;
+  background: radial-gradient(circle at center, rgba(255, 232, 196, 0.7), transparent 68%);
+  animation-delay: 2s;
+}
+
+.login-layout {
+  width: min(1080px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.95fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.login-showcase {
+  border-radius: 24px;
+  padding: clamp(20px, 3.4vw, 34px);
+  border: 1px solid rgba(15, 118, 110, 0.24);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(239, 251, 249, 0.8)),
+    linear-gradient(120deg, #0f766e, #f59e0b);
+  box-shadow: 0 24px 48px rgba(24, 36, 44, 0.14);
+  animation: rise-in 0.6s ease-out;
+}
+
+.login-kicker {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+
+.login-showcase h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  font-family: var(--display);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: #1f2937;
+}
+
+.login-summary {
+  margin: 0;
+  color: #374151;
+  line-height: 1.55;
+  max-width: 58ch;
+}
+
+.login-points {
+  margin-top: 14px;
+  display: grid;
+  gap: 9px;
+}
+
+.login-points span {
+  border-radius: 12px;
+  border: 1px solid rgba(14, 116, 144, 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  color: #155e75;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 8px 10px;
+  animation: rise-in 0.55s ease-out;
+}
+
+.login-points span:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.login-points span:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.login-metrics {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.login-metrics article {
+  border-radius: 14px;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  background: linear-gradient(150deg, rgba(255, 252, 245, 0.92), rgba(255, 255, 255, 0.84));
+  padding: 10px;
+  min-height: 92px;
+}
+
+.login-metrics strong {
+  display: block;
+  font-size: 1.15rem;
+  color: #0f766e;
+}
+
+.login-metrics span {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #a16207;
+}
+
+.login-card {
+  width: min(470px, 100%);
+  margin-left: auto;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(245, 251, 252, 0.94));
+  box-shadow: 0 22px 42px rgba(20, 29, 39, 0.16);
+  animation: rise-in 0.75s ease-out 0.08s both;
+}
+
+.login-form-kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0e7490;
+}
+
+.login-form-note {
+  margin: 6px 0 2px;
+  color: #4b5563;
+  font-size: 0.92rem;
+}
+
+.login-field {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.login-field span {
+  font-size: 0.83rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0f766e;
+  font-weight: 700;
+}
+
+.login-field input {
+  border: 1px solid #bdd5da;
+  background: #fcfeff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-field input:focus {
+  outline: none;
+  border-color: #0e7490;
+  box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.18);
+}
+
+.login-error {
+  margin-top: 10px;
+}
+
+.login-demo-header {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-demo-header p {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0f766e;
+}
+
+.login-demo-header span {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.login-demo-row {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.login-demo-row .ghost {
+  background: #e8f8f6;
+  border: 1px solid rgba(20, 140, 130, 0.25);
+  color: #0f766e;
+  font-weight: 700;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.login-demo-row .ghost:hover {
+  transform: translateY(-1px);
+  background: #dbf3ef;
+  box-shadow: 0 8px 14px rgba(17, 94, 89, 0.12);
+}
+
+.login-submit {
+  margin-top: 14px;
+  background: linear-gradient(120deg, #0f766e, #0ea5a4 50%, #f59e0b 100%);
+  box-shadow: 0 12px 20px rgba(17, 94, 89, 0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 15px 24px rgba(17, 94, 89, 0.24);
+}
+
+.login-switch {
+  margin: 14px 0 0;
+  color: #475467;
+}
+
+.login-switch a {
+  font-weight: 700;
+  color: #0f766e;
+}
+
 .topbar {
   background: linear-gradient(120deg, var(--primary), var(--primary-2));
   color: white;
@@ -576,7 +832,34 @@ td {
   }
 }
 
+@keyframes ambient-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 @media (max-width: 900px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .login-card {
+    width: 100%;
+  }
+
+  .login-showcase {
+    padding: 20px;
+  }
+
+  .login-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .home-stats {
     grid-template-columns: 1fr 1fr;
   }
@@ -605,5 +888,12 @@ td {
   .topbar nav {
     width: 100%;
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .login-metrics,
+  .login-demo-row {
+    grid-template-columns: 1fr;
   }
 }

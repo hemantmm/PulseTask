@@ -50,28 +50,44 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="auth-shell">
-      <section className="auth-layout">
-        <aside className="auth-panel">
-          <p className="auth-kicker">Operations Ready</p>
-          <h1>Monitor uploads, moderation, and playback in one dashboard.</h1>
-          <p>
-            PulseTask gives your team a live command center for media ingestion, processing, and
-            secure playback.
+    <main className="auth-shell login-page">
+      <section className="login-layout">
+        <aside className="login-showcase">
+          <p className="login-kicker">Media Control Center</p>
+          <h1>Shift from upload chaos to a clean, live operations board.</h1>
+          <p className="login-summary">
+            PulseTask keeps ingestion, processing, and secure playback coordinated for every role in
+            your team.
           </p>
-          <div className="auth-points">
-            <span>Real-time queue updates</span>
-            <span>Tenant-isolated workspaces</span>
-            <span>Role-based controls</span>
+
+          <div className="login-points">
+            <span>Queue telemetry in real time</span>
+            <span>Tenant-level separation by default</span>
+            <span>Editors, viewers, and admins in sync</span>
+          </div>
+
+          <div className="login-metrics" aria-label="Platform highlights">
+            <article>
+              <strong>99.95%</strong>
+              <span>Uptime SLA</span>
+            </article>
+            <article>
+              <strong>3 Roles</strong>
+              <span>Fine-grained access</span>
+            </article>
+            <article>
+              <strong>Live</strong>
+              <span>Processing visibility</span>
+            </article>
           </div>
         </aside>
 
-        <form className="card auth-card" onSubmit={handleSubmit}>
-          <p className="auth-form-kicker">Sign In</p>
+        <form className="card auth-card login-card" onSubmit={handleSubmit}>
+          <p className="login-form-kicker">Sign In</p>
           <h2>Welcome Back</h2>
-          <p className="auth-form-note">Use one of your tenant credentials to continue.</p>
+          <p className="login-form-note">Use your tenant credentials to access the dashboard.</p>
 
-          <label className="field">
+          <label className="field login-field">
             <span>Email</span>
             <input
               type="email"
@@ -82,7 +98,7 @@ export default function LoginPage() {
             />
           </label>
 
-          <label className="field">
+          <label className="field login-field">
             <span>Password</span>
             <input
               type="password"
@@ -93,25 +109,29 @@ export default function LoginPage() {
             />
           </label>
 
-          {error ? <p className="error-text">{error}</p> : null}
+          {error ? <p className="error-text login-error">{error}</p> : null}
 
-          <div className="demo-row">
+          <div className="login-demo-header">
+            <p>Quick demo accounts</p>
+            <span>One click fill</span>
+          </div>
+          <div className="login-demo-row">
             <button type="button" className="ghost" onClick={() => fillDemo('editor')}>
-              Editor Demo
+              Editor
             </button>
             <button type="button" className="ghost" onClick={() => fillDemo('admin')}>
-              Admin Demo
+              Admin
             </button>
             <button type="button" className="ghost" onClick={() => fillDemo('viewer')}>
-              Viewer Demo
+              Viewer
             </button>
           </div>
 
-          <button className="primary-btn" disabled={busy}>
+          <button className="primary-btn login-submit" disabled={busy}>
             {busy ? 'Signing in...' : 'Login'}
           </button>
 
-          <p className="auth-switch">
+          <p className="auth-switch login-switch">
             Need an account? <Link to="/register">Register</Link>
           </p>
         </form>
