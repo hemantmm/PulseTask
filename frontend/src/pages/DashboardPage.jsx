@@ -86,44 +86,45 @@ export default function DashboardPage() {
     );
   }, [videos, filters.q]);
 
-    const greeting = useMemo(() => {
-      const hour = new Date().getHours();
-      if (hour < 12) return 'Good morning';
-      if (hour < 18) return 'Good afternoon';
-      return 'Good evening';
-    }, []);
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  }, []);
 
   const homeStats = useMemo(() => {
     const processed = videos.filter((video) => video.status === 'processed').length;
     const processing = videos.filter((video) => video.status === 'processing').length;
-      const failed = videos.filter((video) => video.status === 'failed').length;
+    const failed = videos.filter((video) => video.status === 'failed').length;
     const flagged = videos.filter((video) => video.sensitivity === 'flagged').length;
-      const safe = videos.filter((video) => video.sensitivity === 'safe').length;
-      const totalSizeMb = videos.reduce((sum, video) => sum + (video.size || 0), 0) / (1024 * 1024);
-      const completionRate = videos.length ? Math.round((processed / videos.length) * 100) : 0;
-      const newestVideo = [...videos]
-        .filter((video) => video.createdAt)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+    const safe = videos.filter((video) => video.sensitivity === 'safe').length;
+    const totalSizeMb = videos.reduce((sum, video) => sum + (video.size || 0), 0) / (1024 * 1024);
+    const completionRate = videos.length ? Math.round((processed / videos.length) * 100) : 0;
+    const newestVideo = [...videos]
+      .filter((video) => video.createdAt)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
 
     return {
       total: videos.length,
       processed,
       processing,
-        failed,
-        flagged,
-        safe,
-        totalSizeMb,
-        completionRate,
-        newestVideo
+      failed,
+      flagged,
+      safe,
+      totalSizeMb,
+      completionRate,
+      newestVideo
     };
   }, [videos]);
 
-    const role = user?.role || 'viewer';
+  const role = user?.role || 'viewer';
 
   return (
     <main className="page-shell home-page">
       <NavBar />
       <section className="home-hero">
+        <div className="home-hero-copy">
           <p className="home-kicker">PulseTask Command Center</p>
           <h2 className="home-title">{greeting}, keep content operations moving</h2>
           <p className="home-subtitle">
@@ -134,41 +135,65 @@ export default function DashboardPage() {
             <span className="home-chip">Tenant: {user?.tenantId}</span>
             <span className="home-chip">Role: {role}</span>
             <span className="home-chip">Completion: {homeStats.completionRate}%</span>
+            <span className="home-chip">Queue: {homeStats.processing}</span>
           </div>
-        <div className="home-stats">
-          <article className="home-stat">
-            <strong>{homeStats.total}</strong>
-            <span>Total Videos</span>
-          </article>
-          <article className="home-stat">
-            <strong>{homeStats.processed}</strong>
-            <span>Ready To Play</span>
-          </article>
-          <article className="home-stat">
-            <strong>{homeStats.processing}</strong>
-            <span>In Processing</span>
-          </article>
-          <article className="home-stat">
-            <strong>{homeStats.flagged}</strong>
-            <span>Flagged Content</span>
-          </article>
-          <article className="home-stat">
-            <strong>{homeStats.failed}</strong>
-            <span>Failed Jobs</span>
-          </article>
+          <div className="home-actions" aria-label="Workspace status highlights">
+            <div className="home-action-card home-action-card-primary">
+              <span>Library health</span>
+              <strong>{homeStats.completionRate}% ready</strong>
+              <p>{homeStats.processing > 0 ? 'Processing is still active.' : 'All queued assets are clear.'}</p>
+            </div>
+            <div className="home-action-card">
+              <span>Moderation</span>
+              <strong>{homeStats.flagged} flagged</strong>
+              <p>{homeStats.safe} assets marked safe.</p>
+            </div>
+            <div className="home-action-card">
+              <span>Latest ingest</span>
+              <strong>{homeStats.newestVideo?.title || 'No uploads yet'}</strong>
+              <p>{homeStats.totalSizeMb.toFixed(1)} MB across the current library.</p>
+            </div>
+          </div>
         </div>
-        <div className="home-signal-strip" aria-label="Processing signal strip">
-          <div className="signal-block">
-            <p>Storage footprint</p>
-            <strong>{homeStats.totalSizeMb.toFixed(1)} MB</strong>
+
+        <div className="home-hero-panel">
+          <div className="home-hero-ring" aria-hidden="true">
+            <div>
+              <strong>{homeStats.completionRate}%</strong>
+              <span>ready</span>
+            </div>
           </div>
-          <div className="signal-block">
-            <p>Safe assets</p>
-            <strong>{homeStats.safe}</strong>
+          <div className="home-stats">
+            <article className="home-stat home-stat-emphasis">
+              <strong>{homeStats.total}</strong>
+              <span>Total Videos</span>
+            </article>
+            <article className="home-stat">
+              <strong>{homeStats.processed}</strong>
+              <span>Ready To Play</span>
+            </article>
+            <article className="home-stat">
+              <strong>{homeStats.processing}</strong>
+              <span>In Processing</span>
+            </article>
+            <article className="home-stat">
+              <strong>{homeStats.failed}</strong>
+              <span>Failed Jobs</span>
+            </article>
           </div>
-          <div className="signal-block">
-            <p>Latest ingest</p>
-            <strong>{homeStats.newestVideo?.title || 'No uploads yet'}</strong>
+          <div className="home-signal-strip" aria-label="Processing signal strip">
+            <div className="signal-block">
+              <p>Storage footprint</p>
+              <strong>{homeStats.totalSizeMb.toFixed(1)} MB</strong>
+            </div>
+            <div className="signal-block">
+              <p>Safe assets</p>
+              <strong>{homeStats.safe}</strong>
+            </div>
+            <div className="signal-block">
+              <p>Latest ingest</p>
+              <strong>{homeStats.newestVideo?.title || 'No uploads yet'}</strong>
+            </div>
           </div>
         </div>
       </section>
